@@ -1,45 +1,44 @@
-class Persona:
-    def __init__(self, nombre, apellido):
-        self.nombre = nombre
-        self.apellido = apellido
-
-    def presentarse(self):
-        return f"Hola, me llamo {self.nombre} {self.apellido}"
-
+from Persona import Persona
 
 class Estudiante(Persona):
-    def __init__(self, nombre, apellido, matricula, carrera, semestre):
-        super().__init__(nombre, apellido)
-        self.__matricula = matricula
-        self.__carrera = carrera
-        self.__semestre = semestre
-
-    def estudiar(self, materia, horas):
-        return f"Estudié {materia} durante {horas} horas"
-
-    def presentarse(self):
-        return f"{super().presentarse()} y soy estudiante de {self.__carrera} en el semestre {self.__semestre}"
+    def __init__(self, nombre, apellido, fecha_nacimiento, matricula, carrera, semestre):
+        super().__init__(nombre, apellido, fecha_nacimiento)
+        self._matricula = matricula
+        self._carrera = carrera
+        self._semestre = semestre
+        self.grupos = []  # Lista de grupos a los que pertenece
 
     @property
     def matricula(self):
-        return self.__matricula
+        return self._matricula
 
     @matricula.setter
-    def matricula(self, matricula):
-        self.__matricula = matricula
+    def matricula(self, value):
+        self._matricula = value
 
     @property
     def carrera(self):
-        return self.__carrera
+        return self._carrera
 
     @carrera.setter
-    def carrera(self, carrera):
-        self.__carrera = carrera
+    def carrera(self, value):
+        self._carrera = value
 
     @property
     def semestre(self):
-        return self.__semestre
+        return self._semestre
 
     @semestre.setter
-    def semestre(self, semestre):
-        self.__semestre = semestre
+    def semestre(self, value):
+        self._semestre = value
+
+    def agregar_grupo(self, grupo):
+        if grupo not in self.grupos:
+            self.grupos.append(grupo)
+
+    def eliminar_grupo(self, grupo):
+        if grupo in self.grupos:
+            self.grupos.remove(grupo)
+
+    def presentarse(self):
+        return f"{super().presentarse()} y soy estudiante de {self.carrera} en el semestre {self.semestre}"

@@ -1,32 +1,32 @@
 class Persona:
-    def __init__(self, nombre, apellido, fecha_de_nacimiento):
-        self.__nombre = nombre
-        self.__apellido = apellido
-        self.__fecha_de_nacimiento = fecha_de_nacimiento
-
-    def presentarse(self):
-        print(f"Hola, soy {self.__nombre} {self.__apellido}, nacido el {self.__fecha_de_nacimiento}.")
+    def __init__(self, nombre, apellido, fecha_nacimiento):
+        self._nombre = nombre
+        self._apellido = apellido
+        self._fecha_nacimiento = fecha_nacimiento
 
     @property
     def nombre(self):
-        return self.__nombre
+        return self._nombre
 
     @nombre.setter
     def nombre(self, value):
-        self.__nombre = value
+        self._nombre = value
 
     @property
     def apellido(self):
-        return self.__apellido
+        return self._apellido
 
     @apellido.setter
     def apellido(self, value):
-        self.__apellido = value
+        self._apellido = value
 
     @property
-    def fecha_de_nacimiento(self):
-        return self.__fecha_de_nacimiento
+    def fecha_nacimiento(self):
+        return self._fecha_nacimiento
 
-    @fecha_de_nacimiento.setter
-    def fecha_de_nacimiento(self, value):
-        self.__fecha_de_nacimiento = value
+    @fecha_nacimiento.setter
+    def fecha_nacimiento(self, value):
+        self._fecha_nacimiento = value
+
+    def presentarse(self):
+        return f"Hola, me llamo {self.nombre} {self.apellido}"

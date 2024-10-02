@@ -1,30 +1,26 @@
-import Persona
+from Persona import Persona
 
-class ClaseProfesor(Persona):
-    def __init__(self, numero_empleado, departamento):
-        self.__numero_empleado = numero_empleado
-        self.__departamento = departamento
-
-    def enseñar(self, materia):
-        print(f"El profesor está enseñando {materia}.")
-
-    def presentarse(self):
-        super().presentarse()  
-        print(f"Número de empleado: {self.numero_empleado}")
-        print(f"Departamento: {self.departamento}")
+class Profesor(Persona):
+    def __init__(self, nombre, apellido, fecha_nacimiento, numero_empleado, departamento):
+        super().__init__(nombre, apellido, fecha_nacimiento)
+        self._numero_empleado = numero_empleado
+        self._departamento = departamento
 
     @property
     def numero_empleado(self):
-        return self.__numero_empleado
+        return self._numero_empleado
 
     @numero_empleado.setter
     def numero_empleado(self, value):
-        self.__numero_empleado = value
+        self._numero_empleado = value
 
     @property
     def departamento(self):
-        return self.__departamento
+        return self._departamento
 
     @departamento.setter
     def departamento(self, value):
-        self.__departamento = value
+        self._departamento = value
+
+    def presentarse(self):
+        return f"{super().presentarse()} y soy profesor del departamento de {self.departamento}"
