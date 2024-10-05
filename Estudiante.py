@@ -40,5 +40,4 @@ class Estudiante(Persona):
         if grupo in self.grupos:
             self.grupos.remove(grupo)
 
-    def presentarse(self):
-        return f"{super().presentarse()} y soy estudiante de {self.carrera} en el semestre {self.semestre}"
+

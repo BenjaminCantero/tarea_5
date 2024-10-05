@@ -1,35 +1,31 @@
-import Grupo
-import ProgramaAcademico
+def validar_campos_estudiante(nombre, apellido, matricula, carrera, semestre):
+    if not nombre or not apellido or not matricula or not carrera or semestre <= 0:
+        return False
+    return True
 
+def validar_estudiante_existente(estudiantes, matricula):
+    for estudiante in estudiantes:
+        if estudiante.matricula == matricula:
+            return True  # El estudiante ya existe
+    return False  # El estudiante no existe
 
-class Grupo:
-    # ...
+def validar_campos_grupo(numero_grupo, asignatura):
+    if not numero_grupo or not asignatura:
+        return False
+    return True
 
-    def agregar_estudiante(self, estudiante):
-        if estudiante in self.__estudiantes:
-            print("El estudiante ya está en el grupo")
-        else:
-            self.__estudiantes.append(estudiante)
+def validar_profesor(nombre, apellido, numero_empleado, departamento):
+    if not nombre or not apellido or not numero_empleado or not departamento:
+        return False
+    return True
 
-    def eliminar_estudiante(self, matricula):
-        for estudiante in self.__estudiantes:
-            if estudiante.matricula == matricula:
-                self.__estudiantes.remove(estudiante)
-                return
-        print("El estudiante no existe en el grupo")
+def validar_eliminar_estudiante(estudiantes, matricula):
+    for estudiante in estudiantes:
+        if estudiante.matricula == matricula:
+            return True  # El estudiante existe y se puede eliminar
+    return False  # El estudiante no existe
 
-class ProgramaAcademico:
-    # ...
-
-    def agregar_grupo(self, grupo):
-        if grupo in self.__grupos:
-            print("El grupo ya está en el programa académico")
-        else:
-            self.__grupos.append(grupo)
-
-    def eliminar_grupo(self, numero_grupo):
-        for grupo in self.__grupos:
-            if grupo.numero_grupo == numero_grupo:
-                self.__grupos.remove(grupo)
-                return
-        print("El grupo no existe en el programa académico")
+def validar_eliminar_grupo(grupos, numero_grupo):
+    if numero_grupo in grupos:
+        return True  # El grupo existe y se puede eliminar
+    return False  # El grupo no existe

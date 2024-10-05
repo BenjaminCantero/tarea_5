@@ -22,5 +22,4 @@ class Profesor(Persona):
     def departamento(self, value):
         self._departamento = value
 
-    def presentarse(self):
-        return f"{super().presentarse()} y soy profesor del departamento de {self.departamento}"
+

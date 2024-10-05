@@ -28,5 +28,4 @@ class Persona:
     def fecha_nacimiento(self, value):
         self._fecha_nacimiento = value
 
-    def presentarse(self):
-        return f"Hola, me llamo {self.nombre} {self.apellido}"
+
