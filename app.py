@@ -269,7 +269,7 @@ class GestionUniversitariaApp:
 
 
     def eliminar_profesor(self):
-        codigo = self.codigo_profesor_var.get()
+        codigo = self.codigo_profesor_var.get()  # Obtenemos el número de empleado
 
         if not self.programa_academico.eliminar_profesor(codigo):
             messagebox.showerror("Error", "Profesor no encontrado o código inválido.")
@@ -279,6 +279,7 @@ class GestionUniversitariaApp:
         for item in self.treeview_profesores.get_children():
             if self.treeview_profesores.item(item, "values")[2] == codigo:
                 self.treeview_profesores.delete(item)
+                break  # Salir del bucle después de eliminar
 
         self.limpiar_campos_profesor()
 

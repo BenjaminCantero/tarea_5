@@ -42,13 +42,22 @@ class ProgramaAcademico:
                 return
         raise ValueError("El estudiante no existe en el programa.")
 
+    # Método para agregar un profesor
     def agregar_profesor(self, profesor):
         """ Agregar un profesor al programa académico. """
-        if not any(p.codigo == profesor.codigo for p in self.profesores):
-            self.profesores.append(profesor)
-            print(f"Profesor {profesor.nombre} {profesor.apellido} agregado al programa.")
-        else:
-            print("El profesor ya está registrado en el programa.")
+        self.profesores.append(profesor)
+        print(f"Profesor {profesor.nombre} agregado al programa.")
+
+    # Método para eliminar un profesor
+    def eliminar_profesor(self, numero_empleado):
+        """ Eliminar un profesor del programa académico por su número de empleado. """
+        for profesor in self.profesores:
+            if profesor.numero_empleado == numero_empleado:  # Cambiar a usar numero_empleado
+                self.profesores.remove(profesor)
+                print(f"Profesor {profesor.nombre} eliminado del programa.")
+                return True  # Retorna True si se eliminó exitosamente
+        return False  # Retorna False si no se encontró el profesor
+
 
     def obtener_grupos(self):
         """ Obtener la lista de grupos en el programa académico. """

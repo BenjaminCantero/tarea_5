@@ -22,4 +22,6 @@ class Profesor(Persona):
     def departamento(self, value):
         self._departamento = value
 
-
+    # Opcional: puedes agregar un método __str__ para facilitar la depuración
+    def __str__(self):
+        return f"Profesor: {self.nombre} {self.apellido}, Número de Empleado: {self.numero_empleado}, Departamento: {self.departamento}"
