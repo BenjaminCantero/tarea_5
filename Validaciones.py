@@ -17,11 +17,12 @@ def validar_campos_grupo(numero_grupo, asignatura):
     return True
 
 
-def validar_profesor(nombre, apellido, numero_empleado, departamento):
-    # Verificar que ninguno de los campos esté vacío
-    if not nombre or not apellido or not numero_empleado or not departamento:
+def validar_profesor(nombre, apellido, fecha_nacimiento, codigo, departamento):
+    if not nombre or not apellido or not fecha_nacimiento or not codigo or not departamento:
         return False
+    # Aquí puedes agregar más validaciones si lo necesitas
     return True
+
 
 
 

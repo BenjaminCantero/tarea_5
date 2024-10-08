@@ -116,16 +116,20 @@ class GestionUniversitariaApp:
         self.apellido_profesor_var = tk.StringVar()
         tk.Entry(frame_formularios, textvariable=self.apellido_profesor_var).grid(row=17, column=1)
 
-        tk.Label(frame_formularios, text="Código:", bg="white", fg="black").grid(row=18, column=0)
+        tk.Label(frame_formularios, text="Fecha de Nacimiento:", bg="white", fg="black").grid(row=18, column=0)
+        self.fecha_nacimiento_profesor_var = tk.StringVar()
+        tk.Entry(frame_formularios, textvariable=self.fecha_nacimiento_profesor_var).grid(row=18, column=1)
+
+        tk.Label(frame_formularios, text="Código:", bg="white", fg="black").grid(row=19, column=0)
         self.codigo_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.codigo_profesor_var).grid(row=18, column=1)
+        tk.Entry(frame_formularios, textvariable=self.codigo_profesor_var).grid(row=19, column=1)
 
-        tk.Label(frame_formularios, text="Departamento:", bg="white", fg="black").grid(row=19, column=0)
+        tk.Label(frame_formularios, text="Departamento:", bg="white", fg="black").grid(row=20, column=0)
         self.departamento_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.departamento_profesor_var).grid(row=19, column=1)
+        tk.Entry(frame_formularios, textvariable=self.departamento_profesor_var).grid(row=20, column=1)
 
-        tk.Button(frame_formularios, text="Agregar Profesor", command=self.agregar_profesor).grid(row=20, columnspan=2, pady=5)
-        tk.Button(frame_formularios, text="Eliminar Profesor", command=self.eliminar_profesor).grid(row=21, columnspan=2, pady=5)
+        tk.Button(frame_formularios, text="Agregar Profesor", command=self.agregar_profesor).grid(row=21, columnspan=2, pady=5)
+        tk.Button(frame_formularios, text="Eliminar Profesor", command=self.eliminar_profesor).grid(row=22, columnspan=2, pady=5)
 
         # -------- TABLA PARA PROFESORES --------
         self.treeview_profesores = ttk.Treeview(frame_tabla, columns=("Nombre", "Apellido", "Código", "Departamento"), show="headings")
@@ -197,18 +201,22 @@ class GestionUniversitariaApp:
     def agregar_profesor(self):
         nombre = self.nombre_profesor_var.get()
         apellido = self.apellido_profesor_var.get()
-        codigo = self.codigo_profesor_var.get()
+        fecha_nacimiento = self.fecha_nacimiento_profesor_var.get()  # Asegúrate de tener esta variable configurada
+        numero_empleado = self.codigo_profesor_var.get()  # Esto representa el número de empleado
         departamento = self.departamento_profesor_var.get()
 
-        if not validar_profesor(nombre, apellido, codigo, departamento):
+        if not validar_profesor(nombre, apellido, fecha_nacimiento, numero_empleado, departamento):
+            messagebox.showerror("Error", "Por favor, rellene todos los campos correctamente.")
             return
 
-        profesor = Profesor(nombre, apellido, codigo, departamento)
+        # Crear el objeto Profesor con el número de empleado
+        profesor = Profesor(nombre, apellido, fecha_nacimiento, numero_empleado, departamento)
         self.programa_academico.agregar_profesor(profesor)
 
         # Agregar profesor a la tabla
-        self.treeview_profesores.insert("", "end", values=(nombre, apellido, codigo, departamento))
+        self.treeview_profesores.insert("", "end", values=(nombre, apellido, numero_empleado, departamento))
         self.limpiar_campos_profesor()
+
 
     def eliminar_estudiante(self):
         matricula = self.matricula_var.get().strip()  # Obtener la matrícula del campo y quitar espacios
@@ -290,8 +298,10 @@ class GestionUniversitariaApp:
     def limpiar_campos_profesor(self):
         self.nombre_profesor_var.set("")
         self.apellido_profesor_var.set("")
+        self.fecha_nacimiento_profesor_var.set("")  # Aquí también se limpia la fecha de nacimiento
         self.codigo_profesor_var.set("")
         self.departamento_profesor_var.set("")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
