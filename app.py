@@ -131,6 +131,9 @@ class GestionUniversitariaApp:
         tk.Button(frame_formularios, text="Agregar Profesor", command=self.agregar_profesor).grid(row=21, columnspan=2, pady=5)
         tk.Button(frame_formularios, text="Eliminar Profesor", command=self.eliminar_profesor).grid(row=22, columnspan=2, pady=5)
 
+        tk.Button(frame_formularios, text="Asignar Grupo y Profesor Aleatorio", command=self.asignar_grupo_profesor_aleatorio).grid(row=23, columnspan=2, pady=5)
+
+
         # -------- TABLA PARA PROFESORES --------
         self.treeview_profesores = ttk.Treeview(frame_tabla, columns=("Nombre", "Apellido", "Código", "Departamento"), show="headings")
         self.treeview_profesores.heading("Nombre", text="Nombre")
@@ -140,6 +143,54 @@ class GestionUniversitariaApp:
         self.treeview_profesores.pack(fill=tk.BOTH, expand=True)
         tk.Label(frame_tabla, text="Lista de Profesores", bg="white", fg="black").pack()
         self.treeview_profesores.pack()
+
+
+
+
+
+
+    def asignar_grupo_profesor_aleatorio(self):
+        # Verifica si hay estudiantes, grupos y profesores disponibles
+        if not self.programa_academico.estudiantes:
+            messagebox.showerror("Error", "No hay estudiantes para asignar.")
+            return
+
+        if not self.programa_academico.grupos:
+            messagebox.showerror("Error", "No hay grupos disponibles.")
+            return
+
+        if not self.programa_academico.profesores:
+            messagebox.showerror("Error", "No hay profesores disponibles.")
+            return
+
+        # Selección aleatoria de grupos y profesores
+        import random
+
+        grupo_aleatorio = random.choice(list(self.programa_academico.grupos.keys()))
+        profesor_aleatorio = random.choice(self.programa_academico.profesores)
+
+        # Asignar el grupo y el profesor a todos los estudiantes
+        for estudiante in self.programa_academico.estudiantes:
+            estudiante.asignar_grupo(grupo_aleatorio)
+            estudiante.asignar_profesor(profesor_aleatorio)
+
+        messagebox.showinfo("Éxito", f"Grupo '{grupo_aleatorio}' y profesor '{profesor_aleatorio.nombre} {profesor_aleatorio.apellido}' asignados a todos los estudiantes.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def agregar_estudiante(self):
         nombre = self.nombre_var.get()

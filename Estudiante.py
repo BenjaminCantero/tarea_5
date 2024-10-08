@@ -6,7 +6,8 @@ class Estudiante(Persona):
         self._matricula = matricula
         self._carrera = carrera
         self._semestre = semestre
-        self.grupos = []  # Lista de grupos a los que pertenece
+        self._grupo = None  # Grupo asignado al estudiante
+        self._profesor = None  # Profesor asignado al estudiante
 
     @property
     def matricula(self):
@@ -39,5 +40,11 @@ class Estudiante(Persona):
     def eliminar_grupo(self, grupo):
         if grupo in self.grupos:
             self.grupos.remove(grupo)
+
+    def asignar_grupo(self, grupo):
+        self.grupo = grupo  # Asigna el grupo al estudiante
+
+    def asignar_profesor(self, profesor):
+        self.profesor = profesor  # Asigna el profesor al estudiante
 
 
