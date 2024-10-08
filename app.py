@@ -5,17 +5,19 @@ from Validaciones import (
     validar_estudiante_existente,
     validar_campos_grupo,
     validar_profesor,
+    validar_eliminar_estudiante,
+    validar_eliminar_grupo,
 )
 from Estudiante import Estudiante
 from Profesor import Profesor
 from ProgramaAcademico import ProgramaAcademico
 import Grupo
+
 class GestionUniversitariaApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Gestión Universitaria")
         self.root.geometry("1200x800")
-
         self.root.configure(bg="white")  # Cambiar el fondo a blanco
 
         # Inicialización del programa académico
@@ -138,9 +140,22 @@ class GestionUniversitariaApp:
         fecha_nacimiento = self.fecha_nacimiento_var.get()
         matricula = self.matricula_var.get()
         carrera = self.carrera_var.get()
-        semestre = self.semestre_var.get()
+        
+        # Intentar convertir el semestre a entero
+        try:
+            semestre = int(self.semestre_var.get())
+        except ValueError:
+            messagebox.showerror("Error", "El semestre debe ser un número entero positivo.")
+            return
 
-        if not validar_campos_estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre):
+        # Validar campos
+        if not validar_campos_estudiante(nombre, apellido, matricula, carrera, semestre):
+            messagebox.showerror("Error", "Por favor, rellene todos los campos correctamente.")
+            return
+
+        # Verificar si el estudiante ya existe
+        if validar_estudiante_existente(self.programa_academico.estudiantes, matricula):
+            messagebox.showerror("Error", "El estudiante ya está registrado.")
             return
 
         estudiante = Estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre)
@@ -149,6 +164,8 @@ class GestionUniversitariaApp:
         # Agregar estudiante a la tabla
         self.treeview_estudiantes.insert("", "end", values=(nombre, apellido, matricula, f"{carrera}/{semestre}"))
         self.limpiar_campos_estudiante()
+
+
 
     def agregar_grupo(self):
         codigo_grupo = self.codigo_grupo_var.get()
@@ -183,6 +200,11 @@ class GestionUniversitariaApp:
 
     def eliminar_estudiante(self):
         matricula = self.matricula_var.get()
+
+        if not validar_eliminar_estudiante(matricula, self.programa_academico.estudiantes):
+            messagebox.showerror("Error", "Estudiante no encontrado o matrícula inválida.")
+            return
+        
         self.programa_academico.eliminar_estudiante(matricula)
 
         # Eliminar estudiante de la tabla
@@ -194,6 +216,11 @@ class GestionUniversitariaApp:
 
     def eliminar_grupo(self):
         codigo_grupo = self.codigo_grupo_var.get()
+
+        if not validar_eliminar_grupo(codigo_grupo, self.programa_academico.grupos):
+            messagebox.showerror("Error", "Grupo no encontrado o código inválido.")
+            return
+
         self.programa_academico.eliminar_grupo(codigo_grupo)
 
         # Eliminar grupo de la tabla
@@ -205,7 +232,10 @@ class GestionUniversitariaApp:
 
     def eliminar_profesor(self):
         codigo = self.codigo_profesor_var.get()
-        self.programa_academico.eliminar_profesor(codigo)
+
+        if not self.programa_academico.eliminar_profesor(codigo):
+            messagebox.showerror("Error", "Profesor no encontrado o código inválido.")
+            return
 
         # Eliminar profesor de la tabla
         for item in self.treeview_profesores.get_children():
