@@ -16,6 +16,7 @@ class ProgramaAcademico:
         print(f"Grupo {numero_grupo} agregado al programa.")
 
 
+
     def eliminar_grupo(self, numero_grupo):
         """ Eliminar un grupo del programa académico. """
         if numero_grupo in self.grupos:

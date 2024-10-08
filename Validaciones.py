@@ -18,10 +18,12 @@ def validar_campos_grupo(numero_grupo, asignatura):
 
 
 def validar_profesor(nombre, apellido, numero_empleado, departamento):
-    """Valida que los campos del profesor no estén vacíos."""
+    # Verificar que ninguno de los campos esté vacío
     if not nombre or not apellido or not numero_empleado or not departamento:
         return False
     return True
+
+
 
 def validar_eliminar_estudiante(estudiantes, matricula):
     for estudiante in estudiantes:
@@ -30,8 +32,6 @@ def validar_eliminar_estudiante(estudiantes, matricula):
     return False  # El estudiante no existe
 
 
-def validar_eliminar_grupo(grupos, numero_grupo):
-    """Valida que un grupo con el número proporcionado existe para poder eliminarlo."""
-    if numero_grupo in grupos:
-        return True  # El grupo existe y se puede eliminar
-    return False  # El grupo no existe
+def validar_eliminar_grupo(codigo_grupo, grupos):
+    return codigo_grupo in grupos
+

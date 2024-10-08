@@ -236,20 +236,29 @@ class GestionUniversitariaApp:
 
 
     def eliminar_grupo(self):
-        codigo_grupo = self.codigo_grupo_var.get()
+        codigo_grupo = self.codigo_grupo_var.get().strip()  # Obtener el código del grupo y quitar espacios
 
+        if not codigo_grupo:
+            messagebox.showerror("Error", "Por favor, ingrese el código del grupo a eliminar.")
+            return
+
+        # Validar si el grupo existe
         if not validar_eliminar_grupo(codigo_grupo, self.programa_academico.grupos):
             messagebox.showerror("Error", "Grupo no encontrado o código inválido.")
             return
 
+        # Llamar a la función de eliminación
         self.programa_academico.eliminar_grupo(codigo_grupo)
 
         # Eliminar grupo de la tabla
         for item in self.treeview_grupos.get_children():
             if self.treeview_grupos.item(item, "values")[1] == codigo_grupo:
                 self.treeview_grupos.delete(item)
+                break  # Salir del bucle después de eliminar
 
         self.limpiar_campos_grupo()
+        messagebox.showinfo("Éxito", "Grupo eliminado correctamente.")
+
 
     def eliminar_profesor(self):
         codigo = self.codigo_profesor_var.get()
