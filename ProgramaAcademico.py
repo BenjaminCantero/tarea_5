@@ -7,13 +7,14 @@ class ProgramaAcademico:
         self.grupos = {}  # Diccionario para almacenar los grupos
         self.estudiantes = []  # Lista para almacenar los estudiantes
 
-    def agregar_grupo(self, numero_grupo, asignatura, profesor):
+    def agregar_grupo(self, numero_grupo, asignatura, horario):
         """ Agregar un nuevo grupo al programa académico. """
         if numero_grupo in self.grupos:
             raise ValueError(f"El grupo {numero_grupo} ya existe.")
-        grupo = Grupo(numero_grupo, asignatura, profesor)
+        grupo = Grupo(numero_grupo, asignatura, horario)
         self.grupos[numero_grupo] = grupo
         print(f"Grupo {numero_grupo} agregado al programa.")
+
 
     def eliminar_grupo(self, numero_grupo):
         """ Eliminar un grupo del programa académico. """

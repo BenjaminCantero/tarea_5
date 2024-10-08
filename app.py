@@ -11,7 +11,8 @@ from Validaciones import (
 from Estudiante import Estudiante
 from Profesor import Profesor
 from ProgramaAcademico import ProgramaAcademico
-import Grupo
+from Grupo import Grupo
+
 
 class GestionUniversitariaApp:
     def __init__(self, root):
@@ -94,6 +95,7 @@ class GestionUniversitariaApp:
         tk.Button(frame_formularios, text="Agregar Grupo", command=self.agregar_grupo).grid(row=13, columnspan=2, pady=5)
         tk.Button(frame_formularios, text="Eliminar Grupo", command=self.eliminar_grupo).grid(row=14, columnspan=2, pady=5)
 
+
         # -------- TABLA PARA GRUPOS --------
         self.treeview_grupos = ttk.Treeview(frame_tabla, columns=("Asignatura", "Código", "Horario"), show="headings")
         self.treeview_grupos.heading("Asignatura", text="Asignatura")
@@ -168,19 +170,29 @@ class GestionUniversitariaApp:
 
 
     def agregar_grupo(self):
-        codigo_grupo = self.codigo_grupo_var.get()
-        asignatura = self.asignatura_var.get()
-        horario = self.horario_var.get()
+        numero_grupo = self.codigo_grupo_var.get().strip()  # Obtener el número de grupo
+        asignatura = self.asignatura_var.get().strip()  # Obtener la asignatura
+        horario = self.horario_var.get().strip()  # Obtener el horario
 
-        if not validar_campos_grupo(codigo_grupo, asignatura, horario):
+        # Validar que todos los campos estén llenos
+        if not validar_campos_grupo(numero_grupo, asignatura):
+            messagebox.showerror("Error", "Por favor, rellene todos los campos para agregar el grupo.")
             return
 
-        grupo = Grupo(codigo_grupo, asignatura, horario)
-        self.programa_academico.agregar_grupo(grupo)
+        # Validar que el grupo no exista ya
+        if numero_grupo in self.programa_academico.grupos:
+            messagebox.showerror("Error", f"El grupo {numero_grupo} ya existe.")
+            return
+
+        # Crear el grupo
+        grupo = Grupo(numero_grupo, asignatura, horario)
+        self.programa_academico.agregar_grupo(numero_grupo, asignatura, horario)
 
         # Agregar grupo a la tabla
-        self.treeview_grupos.insert("", "end", values=(asignatura, codigo_grupo, horario))
+        self.treeview_grupos.insert("", "end", values=(asignatura, numero_grupo, horario))
         self.limpiar_campos_grupo()
+        messagebox.showinfo("Éxito", "Grupo agregado correctamente.")
+
 
     def agregar_profesor(self):
         nombre = self.nombre_profesor_var.get()

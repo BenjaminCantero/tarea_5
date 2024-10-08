@@ -12,10 +12,10 @@ def validar_estudiante_existente(estudiantes, matricula):
 
 
 def validar_campos_grupo(numero_grupo, asignatura):
-    """Valida que los campos del grupo no estén vacíos."""
     if not numero_grupo or not asignatura:
         return False
     return True
+
 
 def validar_profesor(nombre, apellido, numero_empleado, departamento):
     """Valida que los campos del profesor no estén vacíos."""
