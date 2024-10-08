@@ -24,11 +24,11 @@ def validar_profesor(nombre, apellido, numero_empleado, departamento):
     return True
 
 def validar_eliminar_estudiante(estudiantes, matricula):
-    """Valida que un estudiante con la matrícula proporcionada existe para poder eliminarlo."""
     for estudiante in estudiantes:
         if estudiante.matricula == matricula:
             return True  # El estudiante existe y se puede eliminar
     return False  # El estudiante no existe
+
 
 def validar_eliminar_grupo(grupos, numero_grupo):
     """Valida que un grupo con el número proporcionado existe para poder eliminarlo."""

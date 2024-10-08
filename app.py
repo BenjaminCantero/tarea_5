@@ -65,6 +65,7 @@ class GestionUniversitariaApp:
         tk.Button(frame_formularios, text="Agregar Estudiante", command=self.agregar_estudiante).grid(row=7, columnspan=2, pady=5)
         tk.Button(frame_formularios, text="Eliminar Estudiante", command=self.eliminar_estudiante).grid(row=8, columnspan=2, pady=5)
 
+
         # -------- TABLA PARA ESTUDIANTES --------
         self.treeview_estudiantes = ttk.Treeview(frame_tabla, columns=("Nombre", "Apellido", "Matrícula", "Carrera/Semestre"), show="headings")
         self.treeview_estudiantes.heading("Nombre", text="Nombre")
@@ -166,7 +167,6 @@ class GestionUniversitariaApp:
         self.limpiar_campos_estudiante()
 
 
-
     def agregar_grupo(self):
         codigo_grupo = self.codigo_grupo_var.get()
         asignatura = self.asignatura_var.get()
@@ -199,20 +199,29 @@ class GestionUniversitariaApp:
         self.limpiar_campos_profesor()
 
     def eliminar_estudiante(self):
-        matricula = self.matricula_var.get()
+        matricula = self.matricula_var.get().strip()  # Obtener la matrícula del campo y quitar espacios
 
-        if not validar_eliminar_estudiante(matricula, self.programa_academico.estudiantes):
-            messagebox.showerror("Error", "Estudiante no encontrado o matrícula inválida.")
+        if not matricula:
+            messagebox.showerror("Error", "Por favor, ingrese la matrícula del estudiante a eliminar.")
             return
-        
+
+        # Verificar si el estudiante existe antes de eliminar
+        if not validar_eliminar_estudiante(self.programa_academico.estudiantes, matricula):
+            messagebox.showerror("Error", "El estudiante no existe en el programa.")
+            return
+
+        # Llamar a la función de eliminación
         self.programa_academico.eliminar_estudiante(matricula)
 
         # Eliminar estudiante de la tabla
         for item in self.treeview_estudiantes.get_children():
             if self.treeview_estudiantes.item(item, "values")[2] == matricula:
                 self.treeview_estudiantes.delete(item)
+                break  # Salir del bucle después de eliminar
 
         self.limpiar_campos_estudiante()
+        messagebox.showinfo("Éxito", "Estudiante eliminado correctamente.")
+
 
     def eliminar_grupo(self):
         codigo_grupo = self.codigo_grupo_var.get()
