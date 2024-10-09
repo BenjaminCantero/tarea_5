@@ -284,7 +284,7 @@ class GestionUniversitariaApp:
 
         if estudiante and grupo:
             grupo.agregar_estudiante(estudiante)
-            self.treeview_inscripciones.insert("", tk.END, values=(estudiante.nombre, grupo.codigo, grupo.asignatura))
+            self.treeview_inscripciones.insert("", tk.END, values=(estudiante.nombre, grupo.numero_grupo, grupo.asignatura))
             messagebox.showinfo("Éxito", "Estudiante inscrito correctamente.")
         else:
             messagebox.showerror("Error", "Estudiante o grupo no encontrado.")

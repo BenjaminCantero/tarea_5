@@ -67,6 +67,31 @@ class ProgramaAcademico:
                 print(f"Asignatura {asignatura.nombre} eliminada del programa.")
                 return
         raise ValueError("La asignatura no existe en el programa.")
+    
+    def buscar_estudiante(self, matricula):
+        """ Buscar un estudiante en el programa académico por su matrícula. """
+        for estudiante in self.estudiantes:
+            if estudiante.matricula == matricula:
+                return estudiante
+        return None
+    
+    def buscar_grupo(self, codigo_grupo):
+        """ Buscar un grupo en el programa académico por su código. """
+        return self.grupos.get(codigo_grupo)
+    
+    def buscar_profesor(self, codigo_profesor):
+        """ Buscar un profesor en el programa académico por su código. """
+        for profesor in self.profesores:
+            if profesor.codigo == codigo_profesor:
+                return profesor
+        return None
+    
+    def buscar_asignatura(self, codigo_asignatura):
+        """ Buscar una asignatura en el programa académico por su código. """
+        for asignatura in self.asignaturas:
+            if asignatura.codigo == codigo_asignatura:
+                return asignatura
+        return None
 
     
     def agregar_asignatura(self, asignatura):
