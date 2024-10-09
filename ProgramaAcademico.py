@@ -5,9 +5,10 @@ class ProgramaAcademico:
     def __init__(self, nombre, codigo):
         self.nombre = nombre
         self.codigo = codigo
-        self.grupos = {}  # Diccionario para almacenar los grupos
-        self.estudiantes = []  # Lista para almacenar los estudiantes
-        self.profesores = []  # Lista para almacenar los profesores
+        self.estudiantes = []
+        self.profesores = []
+        self.grupos = {}
+        self.asignaturas = []  # Lista de asignaturas
 
     def agregar_grupo(self, numero_grupo, asignatura, horario):
         """ Agregar un nuevo grupo al programa académico. """
@@ -57,6 +58,22 @@ class ProgramaAcademico:
                 print(f"Profesor {profesor.nombre} eliminado del programa.")
                 return True  # Retorna True si se eliminó exitosamente
         return False  # Retorna False si no se encontró el profesor
+    
+    def eliminar_asignatura(self, codigo_asignatura):
+        """ Eliminar una asignatura del programa académico. """
+        for asignatura in self.asignaturas:
+            if asignatura.codigo == codigo_asignatura:  # Asumiendo que la asignatura tiene un atributo 'codigo'
+                self.asignaturas.remove(asignatura)
+                print(f"Asignatura {asignatura.nombre} eliminada del programa.")
+                return
+        raise ValueError("La asignatura no existe en el programa.")
+
+    
+    def agregar_asignatura(self, asignatura):
+       self.asignaturas.append(asignatura)
+
+    def obtener_asignaturas(self):
+        return self.asignaturas
 
 
     def obtener_grupos(self):

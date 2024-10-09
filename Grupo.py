@@ -1,11 +1,13 @@
 from Asignatura import Asignatura
 from Profesor import Profesor
 class Grupo:
-    def __init__(self, numero_grupo, asignatura, profesor=None):
+    def __init__(self, numero_grupo, asignatura, horario, profesor=None):
         self.numero_grupo = numero_grupo
         self.asignatura = asignatura
+        self.horario = horario  # Añadir horario aquí
         self.profesor = profesor  # Almacena un objeto de la clase Profesor
         self.__estudiantes = []  # Lista de estudiantes en el grupo
+
 
     def agregar_estudiante(self, estudiante):
         if estudiante in self.__estudiantes:

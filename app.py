@@ -12,347 +12,351 @@ from Estudiante import Estudiante
 from Profesor import Profesor
 from ProgramaAcademico import ProgramaAcademico
 from Grupo import Grupo
-
+from Asignatura import Asignatura
 
 class GestionUniversitariaApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sistema de Gestión Universitaria")
-        self.root.geometry("1200x800")
-        self.root.configure(bg="white")  # Cambiar el fondo a blanco
+        self.root.geometry("800x600")
 
         # Inicialización del programa académico
         self.programa_academico = ProgramaAcademico("Ingeniería", "ING123")
 
-        # Dividir la ventana principal en dos panes
-        paned_window = tk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-        paned_window.pack(fill=tk.BOTH, expand=True)
+        # Crear pestañas
+        self.notebook = ttk.Notebook(root)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
 
-        # Frame para formularios
-        frame_formularios = tk.Frame(paned_window, bg="white")  # Cambiar fondo a blanco
-        paned_window.add(frame_formularios)
+        # Pestaña de Estudiantes
+        self.tab_estudiantes = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab_estudiantes, text="Estudiantes")
+        self.setup_estudiantes_tab()
 
-        # Frame para la tabla
-        frame_tabla = tk.Frame(paned_window)
-        paned_window.add(frame_tabla)
+        # Pestaña de Profesores
+        self.tab_profesores = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab_profesores, text="Profesores")
+        self.setup_profesores_tab()
 
-        # -------- FORMULARIO ESTUDIANTES --------
-        tk.Label(frame_formularios, text="Agregar Estudiante", bg="white", fg="black").grid(row=0, columnspan=2, pady=5)
+        # Pestaña de Grupos
+        self.tab_grupos = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab_grupos, text="Grupos")
+        self.setup_grupos_tab()
 
-        tk.Label(frame_formularios, text="Nombre:", bg="white", fg="black").grid(row=1, column=0)
+        # Pestaña de Asignaturas
+        self.tab_asignaturas = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab_asignaturas, text="Asignaturas")
+        self.setup_asignaturas_tab()
+
+    def setup_estudiantes_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_estudiantes, text="Agregar Estudiante")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Nombre:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
         self.nombre_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.nombre_var).grid(row=1, column=1)
+        ttk.Entry(form_frame, textvariable=self.nombre_var).grid(row=0, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Apellido:", bg="white", fg="black").grid(row=2, column=0)
+        ttk.Label(form_frame, text="Apellido:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
         self.apellido_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.apellido_var).grid(row=2, column=1)
+        ttk.Entry(form_frame, textvariable=self.apellido_var).grid(row=1, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Fecha de Nacimiento:", bg="white", fg="black").grid(row=3, column=0)
+        ttk.Label(form_frame, text="Fecha de Nacimiento:").grid(row=2, column=0, sticky=tk.W, padx=5, pady=2)
         self.fecha_nacimiento_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.fecha_nacimiento_var).grid(row=3, column=1)
+        ttk.Entry(form_frame, textvariable=self.fecha_nacimiento_var).grid(row=2, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Matrícula:", bg="white", fg="black").grid(row=4, column=0)
+        ttk.Label(form_frame, text="Matrícula:").grid(row=3, column=0, sticky=tk.W, padx=5, pady=2)
         self.matricula_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.matricula_var).grid(row=4, column=1)
+        ttk.Entry(form_frame, textvariable=self.matricula_var).grid(row=3, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Carrera:", bg="white", fg="black").grid(row=5, column=0)
+        ttk.Label(form_frame, text="Carrera:").grid(row=4, column=0, sticky=tk.W, padx=5, pady=2)
         self.carrera_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.carrera_var).grid(row=5, column=1)
+        ttk.Entry(form_frame, textvariable=self.carrera_var).grid(row=4, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Semestre:", bg="white", fg="black").grid(row=6, column=0)
-        self.semestre_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.semestre_var).grid(row=6, column=1)
+        # Add Semester Field
+        ttk.Label(form_frame, text="Semestre:").grid(row=5, column=0, sticky=tk.W, padx=5, pady=2)
+        self.semestre_var = tk.StringVar()  # Define the variable for the semester
+        ttk.Entry(form_frame, textvariable=self.semestre_var).grid(row=5, column=1, padx=5, pady=2)
 
-        tk.Button(frame_formularios, text="Agregar Estudiante", command=self.agregar_estudiante).grid(row=7, columnspan=2, pady=5)
-        tk.Button(frame_formularios, text="Eliminar Estudiante", command=self.eliminar_estudiante).grid(row=8, columnspan=2, pady=5)
+        ttk.Button(form_frame, text="Agregar Estudiante", command=self.agregar_estudiante).grid(row=6, column=0, pady=5)
+        ttk.Button(form_frame, text="Eliminar Estudiante", command=self.eliminar_estudiante).grid(row=6, column=1, pady=5)
+        ttk.Button(form_frame, text="Limpiar", command=self.limpiar_estudiante).grid(row=6, column=2, pady=5)
 
+        # Lista de estudiantes
+        list_frame = ttk.Frame(self.tab_estudiantes)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-        # -------- TABLA PARA ESTUDIANTES --------
-        self.treeview_estudiantes = ttk.Treeview(frame_tabla, columns=("Nombre", "Apellido", "Matrícula", "Carrera/Semestre"), show="headings")
+        self.treeview_estudiantes = ttk.Treeview(list_frame, columns=("Nombre", "Apellido", "Matrícula", "Carrera"), show="headings")
         self.treeview_estudiantes.heading("Nombre", text="Nombre")
         self.treeview_estudiantes.heading("Apellido", text="Apellido")
         self.treeview_estudiantes.heading("Matrícula", text="Matrícula")
-        self.treeview_estudiantes.heading("Carrera/Semestre", text="Carrera/Semestre")
+        self.treeview_estudiantes.heading("Carrera", text="Carrera")
         self.treeview_estudiantes.pack(fill=tk.BOTH, expand=True)
-        tk.Label(frame_tabla, text="Lista de Estudiantes", bg="white", fg="black").pack()
-        self.treeview_estudiantes.pack()
 
-        # -------- FORMULARIO GRUPOS --------
-        tk.Label(frame_formularios, text="Agregar Grupo", bg="white", fg="black").grid(row=9, columnspan=2, pady=5)
+    def setup_profesores_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_profesores, text="Agregar Profesor")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
 
-        tk.Label(frame_formularios, text="Código de Grupo:", bg="white", fg="black").grid(row=10, column=0)
-        self.codigo_grupo_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.codigo_grupo_var).grid(row=10, column=1)
-
-        tk.Label(frame_formularios, text="Asignatura:", bg="white", fg="black").grid(row=11, column=0)
-        self.asignatura_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.asignatura_var).grid(row=11, column=1)
-
-        tk.Label(frame_formularios, text="Horario:", bg="white", fg="black").grid(row=12, column=0)
-        self.horario_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.horario_var).grid(row=12, column=1)
-
-        tk.Button(frame_formularios, text="Agregar Grupo", command=self.agregar_grupo).grid(row=13, columnspan=2, pady=5)
-        tk.Button(frame_formularios, text="Eliminar Grupo", command=self.eliminar_grupo).grid(row=14, columnspan=2, pady=5)
-
-
-        # -------- TABLA PARA GRUPOS --------
-        self.treeview_grupos = ttk.Treeview(frame_tabla, columns=("Asignatura", "Código", "Horario"), show="headings")
-        self.treeview_grupos.heading("Asignatura", text="Asignatura")
-        self.treeview_grupos.heading("Código", text="Código")
-        self.treeview_grupos.heading("Horario", text="Horario")
-        self.treeview_grupos.pack(fill=tk.BOTH, expand=True)
-        tk.Label(frame_tabla, text="Lista de Grupos", bg="white", fg="black").pack()
-        self.treeview_grupos.pack()
-
-        # -------- FORMULARIO PROFESORES --------
-        tk.Label(frame_formularios, text="Agregar Profesor", bg="white", fg="black").grid(row=15, columnspan=2, pady=5)
-
-        tk.Label(frame_formularios, text="Nombre:", bg="white", fg="black").grid(row=16, column=0)
+        ttk.Label(form_frame, text="Nombre:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
         self.nombre_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.nombre_profesor_var).grid(row=16, column=1)
+        ttk.Entry(form_frame, textvariable=self.nombre_profesor_var).grid(row=0, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Apellido:", bg="white", fg="black").grid(row=17, column=0)
+        ttk.Label(form_frame, text="Apellido:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
         self.apellido_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.apellido_profesor_var).grid(row=17, column=1)
+        ttk.Entry(form_frame, textvariable=self.apellido_profesor_var).grid(row=1, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Fecha de Nacimiento:", bg="white", fg="black").grid(row=18, column=0)
+        ttk.Label(form_frame, text="Fecha de Nacimiento:").grid(row=2, column=0, sticky=tk.W, padx=5, pady=2)
         self.fecha_nacimiento_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.fecha_nacimiento_profesor_var).grid(row=18, column=1)
+        ttk.Entry(form_frame, textvariable=self.fecha_nacimiento_profesor_var).grid(row=2, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Código:", bg="white", fg="black").grid(row=19, column=0)
+        ttk.Label(form_frame, text="Número de Empleado:").grid(row=3, column=0, sticky=tk.W, padx=5, pady=2)
         self.codigo_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.codigo_profesor_var).grid(row=19, column=1)
+        ttk.Entry(form_frame, textvariable=self.codigo_profesor_var).grid(row=3, column=1, padx=5, pady=2)
 
-        tk.Label(frame_formularios, text="Departamento:", bg="white", fg="black").grid(row=20, column=0)
+        ttk.Label(form_frame, text="Departamento:").grid(row=4, column=0, sticky=tk.W, padx=5, pady=2)
         self.departamento_profesor_var = tk.StringVar()
-        tk.Entry(frame_formularios, textvariable=self.departamento_profesor_var).grid(row=20, column=1)
+        ttk.Entry(form_frame, textvariable=self.departamento_profesor_var).grid(row=4, column=1, padx=5, pady=2)
 
-        tk.Button(frame_formularios, text="Agregar Profesor", command=self.agregar_profesor).grid(row=21, columnspan=2, pady=5)
-        tk.Button(frame_formularios, text="Eliminar Profesor", command=self.eliminar_profesor).grid(row=22, columnspan=2, pady=5)
+        ttk.Button(form_frame, text="Agregar Profesor", command=self.agregar_profesor).grid(row=5, column=0, pady=5)
+        ttk.Button(form_frame, text="Eliminar Profesor", command=self.eliminar_profesor).grid(row=5, column=1, pady=5)
+        ttk.Button(form_frame, text="Limpiar", command=self.limpiar_profesor).grid(row=5, column=2, pady=5)
 
-        tk.Button(frame_formularios, text="Asignar Grupo y Profesor Aleatorio", command=self.asignar_grupo_profesor_aleatorio).grid(row=23, columnspan=2, pady=5)
+        # Lista de profesores
+        list_frame = ttk.Frame(self.tab_profesores)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-
-        # -------- TABLA PARA PROFESORES --------
-        self.treeview_profesores = ttk.Treeview(frame_tabla, columns=("Nombre", "Apellido", "Código", "Departamento"), show="headings")
+        self.treeview_profesores = ttk.Treeview(list_frame, columns=("Nombre", "Apellido", "Código", "Departamento"), show="headings")
         self.treeview_profesores.heading("Nombre", text="Nombre")
         self.treeview_profesores.heading("Apellido", text="Apellido")
         self.treeview_profesores.heading("Código", text="Código")
         self.treeview_profesores.heading("Departamento", text="Departamento")
         self.treeview_profesores.pack(fill=tk.BOTH, expand=True)
-        tk.Label(frame_tabla, text="Lista de Profesores", bg="white", fg="black").pack()
-        self.treeview_profesores.pack()
 
-
-
-
-
-
-    def asignar_grupo_profesor_aleatorio(self):
-        # Verifica si hay estudiantes, grupos y profesores disponibles
-        if not self.programa_academico.estudiantes:
-            messagebox.showerror("Error", "No hay estudiantes para asignar.")
-            return
-
-        if not self.programa_academico.grupos:
-            messagebox.showerror("Error", "No hay grupos disponibles.")
-            return
-
-        if not self.programa_academico.profesores:
-            messagebox.showerror("Error", "No hay profesores disponibles.")
-            return
-
-        # Selección aleatoria de grupos y profesores
-        import random
-
-        grupo_aleatorio = random.choice(list(self.programa_academico.grupos.keys()))
-        profesor_aleatorio = random.choice(self.programa_academico.profesores)
-
-        # Asignar el grupo y el profesor a todos los estudiantes
-        for estudiante in self.programa_academico.estudiantes:
-            estudiante.asignar_grupo(grupo_aleatorio)
-            estudiante.asignar_profesor(profesor_aleatorio)
-
-        messagebox.showinfo("Éxito", f"Grupo '{grupo_aleatorio}' y profesor '{profesor_aleatorio.nombre} {profesor_aleatorio.apellido}' asignados a todos los estudiantes.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def agregar_estudiante(self):
-        nombre = self.nombre_var.get()
-        apellido = self.apellido_var.get()
-        fecha_nacimiento = self.fecha_nacimiento_var.get()
-        matricula = self.matricula_var.get()
-        carrera = self.carrera_var.get()
-        
-        # Intentar convertir el semestre a entero
-        try:
-            semestre = int(self.semestre_var.get())
-        except ValueError:
-            messagebox.showerror("Error", "El semestre debe ser un número entero positivo.")
-            return
-
-        # Validar campos
-        if not validar_campos_estudiante(nombre, apellido, matricula, carrera, semestre):
-            messagebox.showerror("Error", "Por favor, rellene todos los campos correctamente.")
-            return
-
-        # Verificar si el estudiante ya existe
-        if validar_estudiante_existente(self.programa_academico.estudiantes, matricula):
-            messagebox.showerror("Error", "El estudiante ya está registrado.")
-            return
-
-        estudiante = Estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre)
-        self.programa_academico.agregar_estudiante(estudiante)
-
-        # Agregar estudiante a la tabla
-        self.treeview_estudiantes.insert("", "end", values=(nombre, apellido, matricula, f"{carrera}/{semestre}"))
-        self.limpiar_campos_estudiante()
-
-
-    def agregar_grupo(self):
-        numero_grupo = self.codigo_grupo_var.get().strip()  # Obtener el número de grupo
-        asignatura = self.asignatura_var.get().strip()  # Obtener la asignatura
-        horario = self.horario_var.get().strip()  # Obtener el horario
-
-        # Validar que todos los campos estén llenos
-        if not validar_campos_grupo(numero_grupo, asignatura):
-            messagebox.showerror("Error", "Por favor, rellene todos los campos para agregar el grupo.")
-            return
-
-        # Validar que el grupo no exista ya
-        if numero_grupo in self.programa_academico.grupos:
-            messagebox.showerror("Error", f"El grupo {numero_grupo} ya existe.")
-            return
-
-        # Crear el grupo
-        grupo = Grupo(numero_grupo, asignatura, horario)
-        self.programa_academico.agregar_grupo(numero_grupo, asignatura, horario)
-
-        # Agregar grupo a la tabla
-        self.treeview_grupos.insert("", "end", values=(asignatura, numero_grupo, horario))
-        self.limpiar_campos_grupo()
-        messagebox.showinfo("Éxito", "Grupo agregado correctamente.")
-
-
-    def agregar_profesor(self):
-        nombre = self.nombre_profesor_var.get()
-        apellido = self.apellido_profesor_var.get()
-        fecha_nacimiento = self.fecha_nacimiento_profesor_var.get()  # Asegúrate de tener esta variable configurada
-        numero_empleado = self.codigo_profesor_var.get()  # Esto representa el número de empleado
-        departamento = self.departamento_profesor_var.get()
-
-        if not validar_profesor(nombre, apellido, fecha_nacimiento, numero_empleado, departamento):
-            messagebox.showerror("Error", "Por favor, rellene todos los campos correctamente.")
-            return
-
-        # Crear el objeto Profesor con el número de empleado
-        profesor = Profesor(nombre, apellido, fecha_nacimiento, numero_empleado, departamento)
-        self.programa_academico.agregar_profesor(profesor)
-
-        # Agregar profesor a la tabla
-        self.treeview_profesores.insert("", "end", values=(nombre, apellido, numero_empleado, departamento))
-        self.limpiar_campos_profesor()
-
-
-    def eliminar_estudiante(self):
-        matricula = self.matricula_var.get().strip()  # Obtener la matrícula del campo y quitar espacios
-
-        if not matricula:
-            messagebox.showerror("Error", "Por favor, ingrese la matrícula del estudiante a eliminar.")
-            return
-
-        # Verificar si el estudiante existe antes de eliminar
-        if not validar_eliminar_estudiante(self.programa_academico.estudiantes, matricula):
-            messagebox.showerror("Error", "El estudiante no existe en el programa.")
-            return
-
-        # Llamar a la función de eliminación
-        self.programa_academico.eliminar_estudiante(matricula)
-
-        # Eliminar estudiante de la tabla
-        for item in self.treeview_estudiantes.get_children():
-            if self.treeview_estudiantes.item(item, "values")[2] == matricula:
-                self.treeview_estudiantes.delete(item)
-                break  # Salir del bucle después de eliminar
-
-        self.limpiar_campos_estudiante()
-        messagebox.showinfo("Éxito", "Estudiante eliminado correctamente.")
-
-
-    def eliminar_grupo(self):
-        codigo_grupo = self.codigo_grupo_var.get().strip()  # Obtener el código del grupo y quitar espacios
-
-        if not codigo_grupo:
-            messagebox.showerror("Error", "Por favor, ingrese el código del grupo a eliminar.")
-            return
-
-        # Validar si el grupo existe
-        if not validar_eliminar_grupo(codigo_grupo, self.programa_academico.grupos):
-            messagebox.showerror("Error", "Grupo no encontrado o código inválido.")
-            return
-
-        # Llamar a la función de eliminación
-        self.programa_academico.eliminar_grupo(codigo_grupo)
-
-        # Eliminar grupo de la tabla
-        for item in self.treeview_grupos.get_children():
-            if self.treeview_grupos.item(item, "values")[1] == codigo_grupo:
-                self.treeview_grupos.delete(item)
-                break  # Salir del bucle después de eliminar
-
-        self.limpiar_campos_grupo()
-        messagebox.showinfo("Éxito", "Grupo eliminado correctamente.")
-
-
-    def eliminar_profesor(self):
-        codigo = self.codigo_profesor_var.get()  # Obtenemos el número de empleado
-
-        if not self.programa_academico.eliminar_profesor(codigo):
-            messagebox.showerror("Error", "Profesor no encontrado o código inválido.")
-            return
-
-        # Eliminar profesor de la tabla
-        for item in self.treeview_profesores.get_children():
-            if self.treeview_profesores.item(item, "values")[2] == codigo:
-                self.treeview_profesores.delete(item)
-                break  # Salir del bucle después de eliminar
-
-        self.limpiar_campos_profesor()
-
-    def limpiar_campos_estudiante(self):
+    def setup_grupos_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_grupos, text="Gestión de Grupos")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Número de Grupo:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_grupo_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_grupo_var).grid(row=0, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Asignatura:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.asignatura_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.asignatura_var).grid(row=1, column=1, padx=5, pady=2)
+
+        # Agregar el campo para el horario
+        ttk.Label(form_frame, text="Horario:").grid(row=2, column=0, sticky=tk.W, padx=5, pady=2)
+        self.horario_var = tk.StringVar()  # Asegúrate de definir la variable aquí
+        ttk.Entry(form_frame, textvariable=self.horario_var).grid(row=2, column=1, padx=5, pady=2)
+
+        ttk.Button(form_frame, text="Agregar Grupo", command=self.agregar_grupo).grid(row=3, column=0, pady=5)
+        ttk.Button(form_frame, text="Eliminar Grupo", command=self.eliminar_grupo).grid(row=3, column=1, pady=5)
+        ttk.Button(form_frame, text="Limpiar", command=self.limpiar_grupo).grid(row=3, column=2, pady=5)
+
+        # Lista de grupos
+        list_frame = ttk.Frame(self.tab_grupos)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.treeview_grupos = ttk.Treeview(list_frame, columns=("Código", "Asignatura", "Horario"), show="headings")
+        self.treeview_grupos.heading("Código", text="Código")
+        self.treeview_grupos.heading("Asignatura", text="Asignatura")
+        self.treeview_grupos.heading("Horario", text="Horario")  # Asegúrate de agregar la columna de horario
+        self.treeview_grupos.pack(fill=tk.BOTH, expand=True)
+
+    def setup_asignaturas_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_asignaturas, text="Agregar Asignatura")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Nombre:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
+        self.nombre_asignatura_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.nombre_asignatura_var).grid(row=0, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Código:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_asignatura_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_asignatura_var).grid(row=1, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Créditos:").grid(row=2, column=0, sticky=tk.W, padx=5, pady=2)
+        self.creditos_asignatura_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.creditos_asignatura_var).grid(row=2, column=1, padx=5, pady=2)
+
+        ttk.Button(form_frame, text="Agregar Asignatura", command=self.agregar_asignatura).grid(row=3, column=0, pady=5)
+        ttk.Button(form_frame, text="Eliminar Asignatura", command=self.eliminar_asignatura).grid(row=3, column=1, pady=5)
+        ttk.Button(form_frame, text="Limpiar", command=self.limpiar_asignatura).grid(row=3, column=2, pady=5)
+
+        # Lista de asignaturas
+        list_frame = ttk.Frame(self.tab_asignaturas)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.treeview_asignaturas = ttk.Treeview(list_frame, columns=("Nombre", "Código", "Créditos"), show="headings")
+        self.treeview_asignaturas.heading("Nombre", text="Nombre")
+        self.treeview_asignaturas.heading("Código", text="Código")
+        self.treeview_asignaturas.heading("Créditos", text="Créditos")
+        self.treeview_asignaturas.pack(fill=tk.BOTH, expand=True)
+
+    # Métodos para limpiar los campos de cada pestaña
+    def limpiar_estudiante(self):
         self.nombre_var.set("")
         self.apellido_var.set("")
         self.fecha_nacimiento_var.set("")
         self.matricula_var.set("")
         self.carrera_var.set("")
-        self.semestre_var.set("")
+        self.semestre_var.set("")  # Limpiar semestre
 
-    def limpiar_campos_grupo(self):
+    def limpiar_profesor(self):
+        self.nombre_profesor_var.set("")
+        self.apellido_profesor_var.set("")
+        self.fecha_nacimiento_profesor_var.set("")
+        self.codigo_profesor_var.set("")
+        self.departamento_profesor_var.set("")
+
+    def limpiar_grupo(self):
         self.codigo_grupo_var.set("")
         self.asignatura_var.set("")
         self.horario_var.set("")
 
-    def limpiar_campos_profesor(self):
-        self.nombre_profesor_var.set("")
-        self.apellido_profesor_var.set("")
-        self.fecha_nacimiento_profesor_var.set("")  # Aquí también se limpia la fecha de nacimiento
-        self.codigo_profesor_var.set("")
-        self.departamento_profesor_var.set("")
+    def limpiar_asignatura(self):
+        self.nombre_asignatura_var.set("")
+        self.codigo_asignatura_var.set("")
+        self.creditos_asignatura_var.set("")
+
+    def agregar_estudiante(self):
+        try:
+            nombre = self.nombre_var.get()
+            apellido = self.apellido_var.get()
+            fecha_nacimiento = self.fecha_nacimiento_var.get()
+            matricula = self.matricula_var.get()
+            carrera = self.carrera_var.get()
+            semestre = self.semestre_var.get()  # Get the semester value
+
+            if validar_campos_estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre):
+                nuevo_estudiante = Estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre)
+                if not validar_estudiante_existente(self.programa_academico, matricula):
+                    self.programa_academico.agregar_estudiante(nuevo_estudiante)
+                    self.treeview_estudiantes.insert("", tk.END, values=(nombre, apellido, matricula, carrera))
+                    messagebox.showinfo("Éxito", "Estudiante agregado correctamente.")
+                else:
+                    messagebox.showerror("Error", "El estudiante ya existe.")
+            else:
+                messagebox.showerror("Error", "Por favor, complete todos los campos correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al agregar el estudiante: {str(e)}")
+
+    def eliminar_estudiante(self):
+        try:
+            selected_item = self.treeview_estudiantes.selection()
+            if selected_item:  # Verifica si hay una selección
+                estudiante_info = self.treeview_estudiantes.item(selected_item, "values")
+                matricula = estudiante_info[2]
+
+                if validar_eliminar_estudiante(self.programa_academico, matricula):
+                    self.programa_academico.eliminar_estudiante(matricula)
+                    self.treeview_estudiantes.delete(selected_item)
+                    messagebox.showinfo("Éxito", "Estudiante eliminado correctamente.")
+                else:
+                    messagebox.showerror("Error", "No se pudo eliminar el estudiante.")
+            else:
+                messagebox.showerror("Error", "Seleccione un estudiante para eliminar.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al eliminar el estudiante: {str(e)}")
+
+    def agregar_profesor(self):
+        try:
+            nombre = self.nombre_profesor_var.get()
+            apellido = self.apellido_profesor_var.get()
+            fecha_nacimiento = self.fecha_nacimiento_profesor_var.get()
+            codigo = self.codigo_profesor_var.get()
+            departamento = self.departamento_profesor_var.get()
+
+            if validar_profesor(nombre, apellido, fecha_nacimiento, codigo, departamento):
+                nuevo_profesor = Profesor(nombre, apellido, fecha_nacimiento, codigo, departamento)
+                self.programa_academico.agregar_profesor(nuevo_profesor)
+                self.treeview_profesores.insert("", tk.END, values=(nombre, apellido, codigo, departamento))
+                messagebox.showinfo("Éxito", "Profesor agregado correctamente.")
+            else:
+                messagebox.showerror("Error", "Por favor, complete todos los campos correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al agregar el profesor: {str(e)}")
+
+    def eliminar_profesor(self):
+        try:
+            selected_item = self.treeview_profesores.selection()
+            if selected_item:
+                profesor_info = self.treeview_profesores.item(selected_item, "values")
+                codigo = profesor_info[2]
+                self.programa_academico.eliminar_profesor(codigo)
+                self.treeview_profesores.delete(selected_item)
+                messagebox.showinfo("Éxito", "Profesor eliminado correctamente.")
+            else:
+                messagebox.showerror("Error", "Seleccione un profesor para eliminar.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al eliminar el profesor: {str(e)}")
+
+    def agregar_grupo(self):
+        try:
+            codigo = self.codigo_grupo_var.get()  # Obtener el número de grupo
+            asignatura = self.asignatura_var.get()  # Obtener la asignatura
+            horario = self.horario_var.get()  # Obtener el horario
+
+            # Validar todos los campos necesarios, incluyendo horario
+            if validar_campos_grupo(codigo, asignatura, horario):  # Validar con todos los parámetros
+                self.programa_academico.agregar_grupo(codigo, asignatura, horario)  # Llamar al método con todos los argumentos
+                self.treeview_grupos.insert("", tk.END, values=(codigo, asignatura, horario))
+                messagebox.showinfo("Éxito", "Grupo agregado correctamente.")
+            else:
+                messagebox.showerror("Error", "Por favor, complete todos los campos correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al agregar el grupo: {str(e)}")
+
+    def eliminar_grupo(self):
+        try:
+            selected_item = self.treeview_grupos.selection()
+            if selected_item:
+                grupo_info = self.treeview_grupos.item(selected_item, "values")
+                codigo = grupo_info[0]
+
+                # Verifica si el grupo puede ser eliminado
+                if validar_eliminar_grupo(codigo, self.programa_academico):
+                    self.programa_academico.eliminar_grupo(codigo)
+                    self.treeview_grupos.delete(selected_item)
+                    messagebox.showinfo("Éxito", "Grupo eliminado correctamente.")
+                else:
+                    messagebox.showerror("Error", "No se pudo eliminar el grupo.")
+            else:
+                messagebox.showerror("Error", "Seleccione un grupo para eliminar.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al eliminar el grupo: {str(e)}")
+
+
+    def agregar_asignatura(self):
+        try:
+            nombre = self.nombre_asignatura_var.get()
+            codigo = self.codigo_asignatura_var.get()
+            creditos = self.creditos_asignatura_var.get()
+
+            if nombre and codigo and creditos:
+                nueva_asignatura = Asignatura(nombre, codigo, creditos)
+                self.programa_academico.agregar_asignatura(nueva_asignatura)
+                self.treeview_asignaturas.insert("", tk.END, values=(nombre, codigo, creditos))
+                messagebox.showinfo("Éxito", "Asignatura agregada correctamente.")
+            else:
+                messagebox.showerror("Error", "Por favor, complete todos los campos correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al agregar la asignatura: {str(e)}")
+
+    def eliminar_asignatura(self):
+        try:
+            # Supongamos que tienes un treeview para seleccionar asignaturas
+            selected_item = self.treeview_asignaturas.selection()
+            if selected_item:
+                asignatura_info = self.treeview_asignaturas.item(selected_item, "values")
+                codigo_asignatura = asignatura_info[1]  # Asumiendo que el código está en el segundo índice
+
+                self.programa_academico.eliminar_asignatura(codigo_asignatura)
+                self.treeview_asignaturas.delete(selected_item)
+                messagebox.showinfo("Éxito", "Asignatura eliminada correctamente.")
+            else:
+                messagebox.showerror("Error", "Seleccione una asignatura para eliminar.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Ocurrió un error al eliminar la asignatura: {str(e)}")
+
 
 
 if __name__ == "__main__":
