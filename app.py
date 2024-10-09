@@ -350,7 +350,7 @@ class GestionUniversitariaApp:
             fecha_nacimiento = self.fecha_nacimiento_var.get()
             matricula = self.matricula_var.get()
             carrera = self.carrera_var.get()
-            semestre = self.semestre_var.get()  # Get the semester value
+            semestre = self.semestre_var.get()
 
             if validar_campos_estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre):
                 nuevo_estudiante = Estudiante(nombre, apellido, fecha_nacimiento, matricula, carrera, semestre)
@@ -368,7 +368,7 @@ class GestionUniversitariaApp:
     def eliminar_estudiante(self):
         try:
             selected_item = self.treeview_estudiantes.selection()
-            if selected_item:  # Verifica si hay una selección
+            if selected_item:  
                 estudiante_info = self.treeview_estudiantes.item(selected_item, "values")
                 matricula = estudiante_info[2]
 
