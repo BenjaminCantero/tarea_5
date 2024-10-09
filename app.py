@@ -406,8 +406,8 @@ class GestionUniversitariaApp:
             selected_item = self.treeview_profesores.selection()
             if selected_item:
                 profesor_info = self.treeview_profesores.item(selected_item, "values")
-                codigo = profesor_info[2]
-                self.programa_academico.eliminar_profesor(codigo)
+                codigo_profesor = profesor_info[2]  # Define la variable aquí
+                self.programa_academico.eliminar_profesor(codigo_profesor)
                 self.treeview_profesores.delete(selected_item)
                 messagebox.showinfo("Éxito", "Profesor eliminado correctamente.")
             else:

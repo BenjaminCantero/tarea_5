@@ -50,10 +50,9 @@ class ProgramaAcademico:
         print(f"Profesor {profesor.nombre} agregado al programa.")
 
     # Método para eliminar un profesor
-    def eliminar_profesor(self, numero_empleado):
-        """ Eliminar un profesor del programa académico por su número de empleado. """
+    def eliminar_profesor(self, codigo_profesor):
         for profesor in self.profesores:
-            if profesor.numero_empleado == numero_empleado:  # Cambiar a usar numero_empleado
+            if profesor.codigo == codigo_profesor:
                 self.profesores.remove(profesor)
                 print(f"Profesor {profesor.nombre} eliminado del programa.")
                 return True  # Retorna True si se eliminó exitosamente
