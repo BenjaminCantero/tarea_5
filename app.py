@@ -47,6 +47,18 @@ class GestionUniversitariaApp:
         self.notebook.add(self.tab_asignaturas, text="Asignaturas")
         self.setup_asignaturas_tab()
 
+        self.tab_inscripcion = ttk.Frame(self.notebook)
+        self.tab_estudiar = ttk.Frame(self.notebook)
+        self.tab_ensenar = ttk.Frame(self.notebook)
+        
+        self.notebook.add(self.tab_inscripcion, text="Inscripción")
+        self.notebook.add(self.tab_estudiar, text="Estudiar")
+        self.notebook.add(self.tab_ensenar, text="Enseñar")
+
+        self.setup_inscripcion_tab()
+        self.setup_estudiar_tab()
+        self.setup_ensenar_tab()
+
     def setup_estudiantes_tab(self):
         form_frame = ttk.LabelFrame(self.tab_estudiantes, text="Agregar Estudiante")
         form_frame.pack(padx=10, pady=10, fill=tk.X)
@@ -190,6 +202,120 @@ class GestionUniversitariaApp:
         self.treeview_asignaturas.heading("Código", text="Código")
         self.treeview_asignaturas.heading("Créditos", text="Créditos")
         self.treeview_asignaturas.pack(fill=tk.BOTH, expand=True)
+
+        
+    def setup_inscripcion_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_inscripcion, text="Inscripción a Grupo")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Matrícula del Estudiante:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
+        self.matricula_inscripcion_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.matricula_inscripcion_var).grid(row=0, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Código del Grupo:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_grupo_inscripcion_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_grupo_inscripcion_var).grid(row=1, column=1, padx=5, pady=2)
+
+        ttk.Button(form_frame, text="Inscribir", command=self.inscribir_estudiante).grid(row=2, column=0, columnspan=2, pady=5)
+
+        # Lista de inscripciones
+        list_frame = ttk.Frame(self.tab_inscripcion)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.treeview_inscripciones = ttk.Treeview(list_frame, columns=("Estudiante", "Grupo", "Asignatura"), show="headings")
+        self.treeview_inscripciones.heading("Estudiante", text="Estudiante")
+        self.treeview_inscripciones.heading("Grupo", text="Grupo")
+        self.treeview_inscripciones.heading("Asignatura", text="Asignatura")
+        self.treeview_inscripciones.pack(fill=tk.BOTH, expand=True)
+
+    def setup_estudiar_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_estudiar, text="Estudiar Asignatura")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Matrícula del Estudiante:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
+        self.matricula_estudiar_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.matricula_estudiar_var).grid(row=0, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Código de la Asignatura:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_asignatura_estudiar_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_asignatura_estudiar_var).grid(row=1, column=1, padx=5, pady=2)
+
+        ttk.Button(form_frame, text="Estudiar", command=self.estudiar_asignatura).grid(row=2, column=0, columnspan=2, pady=5)
+
+        # Lista de estudios
+        list_frame = ttk.Frame(self.tab_estudiar)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.treeview_estudios = ttk.Treeview(list_frame, columns=("Estudiante", "Asignatura", "Estado"), show="headings")
+        self.treeview_estudios.heading("Estudiante", text="Estudiante")
+        self.treeview_estudios.heading("Asignatura", text="Asignatura")
+        self.treeview_estudios.heading("Estado", text="Estado")
+        self.treeview_estudios.pack(fill=tk.BOTH, expand=True)
+
+    def setup_ensenar_tab(self):
+        form_frame = ttk.LabelFrame(self.tab_ensenar, text="Enseñar Asignatura")
+        form_frame.pack(padx=10, pady=10, fill=tk.X)
+
+        ttk.Label(form_frame, text="Código del Profesor:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_profesor_ensenar_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_profesor_ensenar_var).grid(row=0, column=1, padx=5, pady=2)
+
+        ttk.Label(form_frame, text="Código de la Asignatura:").grid(row=1, column=0, sticky=tk.W, padx=5, pady=2)
+        self.codigo_asignatura_ensenar_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.codigo_asignatura_ensenar_var).grid(row=1, column=1, padx=5, pady=2)
+
+        ttk.Button(form_frame, text="Asignar", command=self.asignar_profesor).grid(row=2, column=0, columnspan=2, pady=5)
+
+        # Lista de asignaciones
+        list_frame = ttk.Frame(self.tab_ensenar)
+        list_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+        self.treeview_asignaciones = ttk.Treeview(list_frame, columns=("Profesor", "Asignatura"), show="headings")
+        self.treeview_asignaciones.heading("Profesor", text="Profesor")
+        self.treeview_asignaciones.heading("Asignatura", text="Asignatura")
+        self.treeview_asignaciones.pack(fill=tk.BOTH, expand=True)
+
+    def inscribir_estudiante(self):
+        matricula = self.matricula_inscripcion_var.get()
+        codigo_grupo = self.codigo_grupo_inscripcion_var.get()
+
+        estudiante = self.programa_academico.buscar_estudiante(matricula)
+        grupo = self.programa_academico.buscar_grupo(codigo_grupo)
+
+        if estudiante and grupo:
+            grupo.agregar_estudiante(estudiante)
+            self.treeview_inscripciones.insert("", tk.END, values=(estudiante.nombre, grupo.codigo, grupo.asignatura))
+            messagebox.showinfo("Éxito", "Estudiante inscrito correctamente.")
+        else:
+            messagebox.showerror("Error", "Estudiante o grupo no encontrado.")
+
+    def estudiar_asignatura(self):
+        matricula = self.matricula_estudiar_var.get()
+        codigo_asignatura = self.codigo_asignatura_estudiar_var.get()
+
+        estudiante = self.programa_academico.buscar_estudiante(matricula)
+        asignatura = self.programa_academico.buscar_asignatura(codigo_asignatura)
+
+        if estudiante and asignatura:
+            estudiante.estudiar_asignatura(asignatura)
+            self.treeview_estudios.insert("", tk.END, values=(estudiante.nombre, asignatura.nombre, "En progreso"))
+            messagebox.showinfo("Éxito", "Estudiante ha comenzado a estudiar la asignatura.")
+        else:
+            messagebox.showerror("Error", "Estudiante o asignatura no encontrada.")
+
+    def asignar_profesor(self):
+        codigo_profesor = self.codigo_profesor_ensenar_var.get()
+        codigo_asignatura = self.codigo_asignatura_ensenar_var.get()
+
+        profesor = self.programa_academico.buscar_profesor(codigo_profesor)
+        asignatura = self.programa_academico.buscar_asignatura(codigo_asignatura)
+
+        if profesor and asignatura:
+            profesor.asignar_asignatura(asignatura)
+            self.treeview_asignaciones.insert("", tk.END, values=(profesor.nombre, asignatura.nombre))
+            messagebox.showinfo("Éxito", "Profesor asignado a la asignatura correctamente.")
+        else:
+            messagebox.showerror("Error", "Profesor o asignatura no encontrada.")
 
     # Métodos para limpiar los campos de cada pestaña
     def limpiar_estudiante(self):
