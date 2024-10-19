@@ -11,7 +11,7 @@ from Validaciones import (
 from Estudiante import Estudiante
 from Profesor import Profesor
 from ProgramaAcademico import ProgramaAcademico
-from Grupo import Grupo
+from Grupo import Grupoaaaaaaaaaa
 from Asignatura import Asignatura
 
 class GestionUniversitariaApp:
